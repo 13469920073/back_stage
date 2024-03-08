@@ -133,7 +133,7 @@ export default {
 
     getList() {
       this.listLoading = true
-      console.log('获取信息', this.form)
+      console.log('测试提交', this.form)
       customerlist(this.form).then(response => {
         // this.list = response.data.items
         // this.total = response.data.total
