@@ -43,14 +43,14 @@
           </span>
         </el-form-item>
       </el-tooltip>
-      <el-form-item ref="sms-token" prop="Token" label-width="0" style="margin-bottom: 30px;">
+      <!-- <el-form-item ref="sms-token" prop="Token" label-width="0" style="margin-bottom: 30px;">
         <span class="svg-container" style="padding-left:13px;line-height: 16px;">
           <svg t="1708670888533" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4589" width="18" height="18"><path d="M835.1 200.9c-7.7 0.3-15.3 0.4-22.7 0.4-194.9 0-280.9-82.6-281.6-83.3l-19.4-19.7-19.6 19.7c-0.8 0.9-85 83.3-281.5 83.3-7.4 0-15-0.1-22.7-0.4l-27.4-0.9v374.4c0 98 35.4 241 341.6 350.4l9.6 3.4 9.6-3.4c306.2-109.4 341.6-252.4 341.6-350.4V200l-27.5 0.9M481.2 671.2L304.8 517.6l46.8-37.3 93.8 68S574.9 416.6 700 355l17.9 19.8S561.6 502.2 481.2 671.2m0 0" p-id="4590" fill="#889aa4" /></svg>
         </span>
         <el-input ref="token" v-model.trim="loginForm.Token" style="width:418px" maxlength="4" autofocus class="login-form-token" tabindex="0" placeholder="验证码" @keyup.enter.native="handleLogin">
           <img slot="suffix" class="capture" :src="options.imgSrc" alt="加载中.." title="点击刷新" @click="getCaptchaToken()">
         </el-input>
-      </el-form-item>
+      </el-form-item> -->
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
 
@@ -98,7 +98,7 @@ export default {
       }
     }
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
+      if (value.length < 3) {
         callback(new Error('The password can not be less than 6 digits'))
       } else {
         callback()
@@ -107,7 +107,7 @@ export default {
     return {
       loginForm: {
         username: 'admin',
-        password: '111111',
+        password: '123',
         Token: '21321321'
       },
       loginRules: {
