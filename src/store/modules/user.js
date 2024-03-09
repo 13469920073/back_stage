@@ -7,10 +7,14 @@ const state = {
   name: '',
   avatar: '',
   introduction: '',
-  roles: []
+  roles: [],
+  permissions: [] // 用户的权限表
 }
 
 const mutations = {
+  SET_PERMISSION: (state, permissions = []) => { // 保存用户权限
+    state.permissions = permissions
+  },
   SET_TOKEN: (state, token) => {
     state.token = token
   },
@@ -25,6 +29,36 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  }
+}
+function handlePermissions(Menus = []) {
+  const permissionsTree = []
+  try {
+    Menus.forEach(menu => {
+      // 判断是否有子菜单
+      if (menu.childList && !!menu.childList.length) {
+        menu.code && permissionsTree.push(menu.code)
+        const childrenPermissions = handlePermissions(menu.childList)
+        permissionsTree.push(...childrenPermissions)
+        // permissionsTree = [
+        //   'openStageMgmt', 'mOpenStageMgt', 'mOpenStageApiMgt', 'mOpenStageProviderMgt', 'mbankMgmt', 'morganMgmt', 'mbankOrganInfoquery', 'mbankOrgRoleQuery', 'mtellerRightMgmt', 'mbankTellerRoleSet', 'mtellerRightQuery', 'mtellerMgmt', 'mbankTellerSet', 'mbankTellerInfoQuery', 'mbankTellerPasswordReset', 'mbankCertMgmt', 'mbankCertMgtApply', 'mbankCertUpdateApply', 'mbankCertMgtApplyCancel', 'mbankCertMgtProcess', 'mbankCertStatusQuery', 'mfeemgmt', 'mfeeItemMgmt', 'mfeeItemQry', 'mfeeItemAdd', 'mfeeItemMod', 'mfeeItemDel', 'mfeeRateMgmt', 'mfeeRateQry', 'mfeeRateAdd', 'mfeeRateMod', 'mfeeRateDel', 'mdivFloatMgmt', 'mdivFloatQry', 'mdivFloatAdd', 'mdivFloatMod', 'mdivFloatDel', 'mfeeDiscountMgmt', 'mFeeDiscountQry', 'mfeeDiscountAdd', 'mfeeDiscountMod', 'mfeeDiscountDel', 'mentMgmt', 'mcustMgmt', 'mcustQuicksign', 'mcustsign', 'mfixedAccInterestMod', 'mcustInfoMod', 'mcustDel', 'mcustInfoQuery', 'mcustComInfoQuery', 'mcustFreezeUnFreeze', 'mcustReceiptPrintQuery', 'mcustReceiptPrintCountQuery', 'mbatchTransferNumSet', 'mcustGrade', 'mcustGradeQuery', 'mcustGradeSet', 'me2eWhite', 'me2eWhiteSet', 'me2eWhiteQuery', 'me2pWhite', 'me2pWhiteSet', 'me2pWhiteQuery', 'mcustrightmgmt', 'mentRightModelSet', 'mentRoleModelSet', 'mentRightQuery', 'mmgtEntPermissionMod', 'mgtSMSNotification', 'mgtAccountSMSSign', 'mgtAccountSMSNotificationSign', 'maccountMgmt', 'mentAccountOpen', 'mentAccountMod', 'mentAccountDel', 'mentAccountInfoQuery', 'mentInnerAccountOpen', 'mentShortAcSet', 'mperLongAcSet', 'maccountRightMgmt', 'mentPairAcSet', 'mentPairAcQuery', 'mentAcPayLimitListQuery', 'mentAuthAcSet', 'mentAuthAcQuery', 'mentUserMgmt', 'mentPaswordLetterPrintHistoryMgt', 'mentUserAdd', 'mentUserMod', 'mentUserDel', 'mentUserInfoQuery', 'mentUserAuthAcSet', 'mentUserPasswordReset', 'mentPaswordLetterPrint', 'mentRightMgmt', 'mentUserRightQuery', 'mentfeemgmt', 'mentFeeAccountMgmt', 'mentFeeAccountQry',
+        //   'mbusMgmt', 'mtaskMgmt', 'mhandleTaskMgmt', 'mtaskHandleListQuery', 'mCertFeeWhiteListSet', 'mCertFeeHistory', 'test'
+        // ]
+      }
+      if (!menu.childList || !menu.childList.length) {
+        menu.code && permissionsTree.push(menu.code)
+        // const { permissions } = menu
+        // if (permissions && permissions.length) {
+        //   permissions.forEach(permission => {
+        //     permission.Id && permissionsTree.push(permission.Id)
+        //   })
+        // }
+      }
+    })
+    return permissionsTree
+  } catch (e) {
+    console.error(e, '处理权限出错')
+    return permissionsTree
   }
 }
 
@@ -47,30 +81,20 @@ const actions = {
   // get user info 获取用户信息
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const { data } = response
-
-        if (!data) {
-          reject('Verification failed, please Login again.')
-        }
-
-        const { roles, name, avatar, introduction } = data
-
-        // roles must be a non-empty array
-        if (!roles || roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
-        }
-
-        commit('SET_ROLES', roles)
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        commit('SET_INTRODUCTION', introduction)
-        resolve(data)
+      getInfo().then(response => {
+        const { result } = response.data
+        const permissionsTree = handlePermissions(result)
+        commit('SET_PERMISSION', permissionsTree)
+        resolve(permissionsTree)
       }).catch(error => {
+        console.log(1112)
         reject(error)
       })
     })
   },
+  /**
+ * @desc 处理权限树，企业后端返回的权限为树结构类型
+ */
 
   // user logout 退出登录
   logout({ commit, state, dispatch }) {
@@ -105,14 +129,11 @@ const actions = {
   // dynamically modify permissions
   async changeRoles({ commit, dispatch }, role) {
     const token = role + '-token'
-
     commit('SET_TOKEN', token)
     setToken(token)
-
     const { roles } = await dispatch('getInfo')
 
     resetRouter()
-
     // generate accessible routes map based on roles
     const accessRoutes = await dispatch('permission/generateRoutes', roles, { root: true })
     // dynamically add accessible routes

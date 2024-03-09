@@ -1,4 +1,4 @@
-import router from './router'
+import router, { resetRouter } from './router'
 import store from './store'
 import { Message } from 'element-ui'
 import NProgress from 'nprogress' // progress bar
@@ -27,24 +27,38 @@ router.beforeEach(async(to, from, next) => {
       NProgress.done() // hack: https://github.com/PanJiaChen/vue-element-admin/pull/2939
     } else {
       // determine whether the user has obtained his permission roles through getInfo
-      const hasRoles = store.getters.roles && store.getters.roles.length > 0
-      if (hasRoles) {
+      // const permissions = store.state.addRoutes
+      console.log(store.state, store.getters, 222)
+      if (store.getters.permissions && store.getters.permissions.length) { // 权限路由已生成
         next()
+
+        // 判断该用户访问的路由是否在权限表中有id值
+        // if (!to.meta || !to.meta.permissionId || permissions.indexOf(to.meta.permissionId) > -1) {
+        //   next()
+        // } else {
+        //   Message.error({ type: 'error', message: '该用户暂无权限,请联系相关人员！', duration: 5000, showClose: true })
+        //   NProgress.done()
+        // }
       } else {
         try {
+          console.log(4444)
+
           // get user info
           // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
           const { roles } = await store.dispatch('user/getInfo')
-
           // generate accessible routes map based on roles
-          const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
-
+          const accessRoutes = await store.dispatch('permission/generateRoutes', roles || store.getters.permissions)
           // dynamically add accessible routes
+          resetRouter()
           router.addRoutes(accessRoutes)
 
           // hack method to ensure that addRoutes is complete
           // set the replace: true, so the navigation will not leave a history record
-          next({ ...to, replace: true })
+          if (to.path === '/dashboard') {
+            next()
+          } else {
+            next({ name: 'Dashboard', replace: true }) // 回到首页
+          }
         } catch (error) {
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')
@@ -56,7 +70,6 @@ router.beforeEach(async(to, from, next) => {
     }
   } else {
     /* has no token*/
-
     if (whiteList.indexOf(to.path) !== -1) {
       // in the free login whitelist, go directly
       next()
