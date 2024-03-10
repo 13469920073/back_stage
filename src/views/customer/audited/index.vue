@@ -138,15 +138,15 @@ export default {
     }
   },
   created() {
-
+    this.getList()
   },
   methods: {
     // 获取已审核客户
     getList() {
       this.listLoading = true
       cusreviewedlist(this.form).then(response => {
-        this.list = response.data.items
-        this.total = response.data.total
+        this.list = response.data.result
+        this.total = response.data.totalCount
         this.listLoading = false
       })
     },
@@ -160,16 +160,21 @@ export default {
     },
     // 重置
     onReset(row, index) {
-      console.log('重置')
+      console.log('重置', row)
       this.$alert('确定重置吗？', '提示', {
         confirmButtonText: '确定',
         callback: action => {
           const param = {
-            customerId: row.customerId,
-            status: row.customerId
+            customerReqVo: row.id,
+            status: row.status,
+            pageNum: this.form.pageNum,
+            pageSize: this.form.pageSize
           }
           updatecustomer(param).then(response => {
-            console.log('chonzhi')
+            this.$message({
+              type: 'success',
+              message: '重置成功'
+            })
           })
           // this.$message({
           //   type: 'info',

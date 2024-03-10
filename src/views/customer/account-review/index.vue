@@ -138,8 +138,8 @@ export default {
       this.listLoading = true
       console.log('获取信息', this.form)
       accreviewinglist(this.form).then(response => {
-        this.list = response.data.items
-        this.total = response.data.total
+        this.list = response.data.result
+        this.total = response.data.totalCount
         this.listLoading = false
       })
     },
@@ -155,28 +155,49 @@ export default {
       this.getList()
     },
     // 通过
-    onPass() {
+    onPass(row, index) {
       console.log('通过审核')
+      this.$alert('确定审核通过吗', '提示', {
+        confirmButtonText: '确定',
+        callback: action => {
+          const param = {
+            accountReqVo: row.id,
+            status: 1,
+            pageNum: this.form.pageNum,
+            pageSize: this.form.pageSize
+          }
+          updatecustomeracc(param).then(response => {
+            this.$message({
+              type: 'success',
+              message: '审核成功'
+            })
+          })
+        }
+      })
     },
     // 不通过
     onNotPass(row, index) {
-      console.log('通过审核')
+      console.log('通过审核', row)
       this.$alert('确定审核不通过吗', '提示', {
         confirmButtonText: '确定',
         callback: action => {
           const param = {
-            customerId: row.customerId,
-            status: row.customerId
+            accountReqVo: row.id,
+            status: 1,
+            pageNum: this.form.pageNum,
+            pageSize: this.form.pageSize
           }
           updatecustomeracc(param).then(response => {
-            console.log('审核通过')
+            this.$message({
+              type: 'success',
+              message: '审核成功'
+            })
           })
-          // this.$message({
-          //   type: 'info',
-          //   message: `action: ${action}`
-          // })
         }
       })
+    },
+    save() {
+
     },
     getBranchDialogValue(val) {
 

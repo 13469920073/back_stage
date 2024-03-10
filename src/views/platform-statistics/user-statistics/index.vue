@@ -164,7 +164,7 @@ export default {
     }
   },
   created() {
-
+    this.getList()
   },
   methods: {
     // 获取代理列表下拉
@@ -183,8 +183,8 @@ export default {
     getList() {
       this.listLoading = true
       custstatisticslist(this.form).then(response => {
-        this.list = response.data.items
-        this.total = response.data.total
+        this.list = response.data.result
+        this.total = response.data.totalCount
         this.listLoading = false
       })
     },

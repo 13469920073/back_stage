@@ -66,26 +66,26 @@ export default {
       tableKey: 0, // 表格
       arr: [],
       list: [
-        {
-          id: '561',
-          nickName: 'NO.73401',
-          loginAccount: '61-432012117',
-          superior: '张',
-          balance: '48980.5210',
-          accountName: '伊藤和成',
-          realName: '张',
-          bindAccount: '张'
-        },
-        {
-          id: '561',
-          nickName: 'NO.73401',
-          loginAccount: '61-432012117',
-          superior: '张',
-          balance: '48980.5210',
-          accountName: '伊藤和成',
-          realName: '张',
-          bindAccount: '张'
-        }
+        // {
+        //   id: '561',
+        //   nickName: 'NO.73401',
+        //   loginAccount: '61-432012117',
+        //   superior: '张',
+        //   balance: '48980.5210',
+        //   accountName: '伊藤和成',
+        //   realName: '张',
+        //   bindAccount: '张'
+        // },
+        // {
+        //   id: '561',
+        //   nickName: 'NO.73401',
+        //   loginAccount: '61-432012117',
+        //   superior: '张',
+        //   balance: '48980.5210',
+        //   accountName: '伊藤和成',
+        //   realName: '张',
+        //   bindAccount: '张'
+        // }
       ], // 表格
       total: 0, // 分页
       form: {
@@ -127,16 +127,15 @@ export default {
     }
   },
   created() {
-
+    this.getList()
   },
   methods: {
 
     getList() {
       this.listLoading = true
-      console.log('测试提交', this.form)
       customerlist(this.form).then(response => {
-        // this.list = response.data.items
-        // this.total = response.data.total
+        this.list = response.data.result
+        this.total = response.data.totalCount
         this.listLoading = false
       })
     },
