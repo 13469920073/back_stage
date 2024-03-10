@@ -112,10 +112,11 @@ export default {
     },
     // 保存
     handle(flag) {
+      console.log('查看新增', this.form)
       this.$refs['form'].validate((valid) => {
         if (valid) {
           addums(this.form).then(() => {
-            console.log('======')
+            this.rest()
             this.$notify({
               title: '提示',
               message: '新增成功',
@@ -125,6 +126,13 @@ export default {
           })
         }
       })
+    },
+    rest() {
+      this.form.userName = ''
+      this.form.passWord = ''
+      this.form.oldPwd = ''
+      this.form.nickName = ''
+      this.form.shareRatio = ''
     },
     closeProcess() {
       this.processVisible = false

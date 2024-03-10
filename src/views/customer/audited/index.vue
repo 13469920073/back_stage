@@ -166,7 +166,7 @@ export default {
         callback: action => {
           const param = {
             customerReqVo: row.id,
-            status: row.status,
+            status: 1,
             pageNum: this.form.pageNum,
             pageSize: this.form.pageSize
           }

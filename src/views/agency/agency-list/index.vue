@@ -61,12 +61,12 @@
         </el-form-item>
         <el-form-item label="登录账号" prop="userName">
           <el-input v-model="agency.userName" placeholder="请输入登录账号" />
-          <div style="color:red">*不填为原密码</div>
         </el-form-item>
         <el-form-item label="登录密码" prop="passWord">
           <el-input v-model="agency.passWord" placeholder="请输入登录密码" />
+          <div style="color:red">*不填为原密码</div>
         </el-form-item>
-        <el-form-item label="分佣比例" prop="shareRatio">
+        <el-form-item label="分佣比例" prop="shareRatio" style="display: flex;margin-left: 0;">
           <el-input v-model="agency.shareRatio" placeholder="请输入分佣比例" />
           <span>%</span>
         </el-form-item>
@@ -209,7 +209,7 @@ export default {
         if (valid) {
           updateums(this.agency).then(() => {
             console.log('======')
-            this.dialogFormVisible = false
+            this.dialogVisible = false
             this.$notify({
               title: '提示',
               message: '修改成功',
