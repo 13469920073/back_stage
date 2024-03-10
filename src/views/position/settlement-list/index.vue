@@ -142,15 +142,15 @@ export default {
     }
   },
   created() {
-
+    this.getList()
   },
   methods: {
     // 获取结算列表客户
     getList() {
       this.listLoading = true
       custcheckoutlist(this.form).then(response => {
-        this.list = response.data.items
-        this.total = response.data.total
+        this.list = response.data.result
+        this.total = response.data.totalCount
         this.listLoading = false
       })
     },

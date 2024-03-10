@@ -133,16 +133,15 @@ export default {
     }
   },
   created() {
-
+    this.getList()
   },
   methods: {
 
     getList() {
       this.listLoading = true
-      console.log('获取信息', this.form)
       cusreviewinglist(this.form).then(response => {
-        // this.list = response.data.items
-        // this.total = response.data.total
+        this.list = response.data.result
+        this.total = response.data.totalCount
         this.listLoading = false
       })
     },

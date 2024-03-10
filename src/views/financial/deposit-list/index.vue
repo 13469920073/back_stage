@@ -135,15 +135,15 @@ export default {
     }
   },
   created() {
-
+    this.getList()
   },
   methods: {
     // 获取已审核客户
     getList() {
       this.listLoading = true
       custincomelist(this.form).then(response => {
-        this.list = response.data.items
-        this.total = response.data.total
+        this.list = response.data.result
+        this.total = response.data.totalCount
         this.listLoading = false
       })
     },

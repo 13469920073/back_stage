@@ -29,7 +29,7 @@ export function cusreviewedlist(data) {
 export function updatecustomer(data) {
   return request({
     url: '/customer/update/updatecustomer',
-    method: 'post',
+    method: 'PUT',
     data
   })
 }
@@ -45,7 +45,7 @@ export function accreviewedlist(data) {
 export function updatecustomeracc(data) {
   return request({
     url: '/customer/update/updatecustomeracc',
-    method: 'post',
+    method: 'PUT',
     data
   })
 }
