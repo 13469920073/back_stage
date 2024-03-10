@@ -90,11 +90,12 @@ export default {
       total: 0, // 分页
       form: {
         // 分页
+        id: 0,
         page: 1,
         limit: 10,
         keyWords: '',
-        pageNum: 1,
-        pageSize: 10,
+        pageNum: 0,
+        pageSize: 0,
         status: ''
       },
       showEmpty: 'table',
