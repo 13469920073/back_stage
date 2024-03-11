@@ -62,9 +62,9 @@
               <div v-if="item.rowName ==='photo'" class="vicp-preview-item" @click="onView(row)">
                 <img :src="row[item.rowName]" style="width: 40px; height: 40px;">
               </div>
-              <!--   <span v-if="item.rowName ==='BiTime'">{{ row[item.rowName].split('.')[0] }}</span>
-              <span v-else-if="item.rowName==='BiChannel'">{{ row[item.rowName] | dict('BiChannelList') }}</span>
-              <span v-else>{{ row[item.rowName] }}</span>-->
+              <span v-else-if="item.rowName==='startNum'">{{ $money(row[item.rowName]) }}</span>
+              <span v-else-if="item.rowName==='adminFinalNum'">{{ $money(row[item.rowName]) }}</span>
+              <span v-else-if="item.rowName==='adminTotalNum'">{{ $money(row[item.rowName]) }}</span>
               <span v-else>{{ row[item.rowName] }}</span>
             </template>
           </el-table-column>
@@ -86,7 +86,7 @@ import { adminstatisticslist } from '@/api/platform-statistics'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 // import { turn } from 'mock/user'
 export default {
-  name: 'CustList', // 客户拒绝入金审核列表
+  name: 'AgencyStatistics', // 代理统计
   components: { Pagination },
   data() {
     return {
@@ -94,28 +94,7 @@ export default {
       dialogVisible: false,
       previewpic: '',
       arr: [],
-      list: [
-        {
-          nickName: 'NO.73401',
-          loginAccount: '61-432012117',
-          superior: '张',
-          PartyName: '48980.5210',
-          realName: '伊藤和成',
-          ProdCategory: '张',
-          BiStateName: '张',
-          photo: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
-        },
-        {
-          nickName: 'NO.73401',
-          loginAccount: '61-432012117',
-          superior: '张',
-          PartyName: '48980.5210',
-          realName: '伊藤和成',
-          ProdCategory: '张',
-          BiStateName: '张',
-          photo: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
-        }
-      ], // 表格
+      list: [], // 表格
       total: 0, // 分页
       form: {
         // 分页
