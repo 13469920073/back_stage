@@ -79,7 +79,7 @@ export const constantRoutes = [
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: '首页', icon: 'dashboard', affix: true }
+        meta: { title: '首页', icon: 'el-icon-s-home', affix: true }
       }
     ]
   }
@@ -95,7 +95,7 @@ export const asyncRoutes = [
     component: Layout,
     meta: {
       title: '客户管理',
-      icon: 'lock',
+      icon: 'el-icon-user-solid',
       permissionId: '001'
     },
     children: [
@@ -103,32 +103,32 @@ export const asyncRoutes = [
         path: 'cust-list',
         component: () => import('@/views/customer/cust-list'),
         name: 'custList',
-        meta: { title: '客户列表', icon: 'edit', permissionId: '001001' }
+        meta: { title: '客户列表', icon: 'el-icon-caret-right', permissionId: '001001' }
       },
       {
         path: 'loan-list',
         component: () => import('@/views/customer/loan-list'),
         name: 'loanList',
-        meta: { title: '客户待审核', icon: 'list', permissionId: '001002' }
+        meta: { title: '客户待审核', icon: 'el-icon-caret-right', permissionId: '001002' }
 
       },
       {
         path: 'audited',
         component: () => import('@/views/customer/audited'),
         name: 'audited',
-        meta: { title: '客户已审核', icon: 'list', permissionId: '001003' }
+        meta: { title: '客户已审核', icon: 'el-icon-caret-right', permissionId: '001003' }
       },
       {
         path: 'account-review',
         component: () => import('@/views/customer/account-review'),
         name: 'accountReview',
-        meta: { title: '账户待审核', icon: 'list', permissionId: '001004' }
+        meta: { title: '账户待审核', icon: 'el-icon-caret-right', permissionId: '001004' }
       },
       {
         path: 'account-audited',
         component: () => import('@/views/customer/account-audited'),
         name: 'accountAudited',
-        meta: { title: '账户已审核', icon: 'list', permissionId: '001005' }
+        meta: { title: '账户已审核', icon: 'el-icon-caret-right', permissionId: '001005' }
       }
     ]
   },
@@ -146,14 +146,14 @@ export const asyncRoutes = [
         path: 'agency-list',
         component: () => import('@/views/agency/agency-list'),
         name: 'agencyList',
-        meta: { title: '代理列表', icon: 'edit', permissionId: '002001'
+        meta: { title: '代理列表', icon: 'el-icon-caret-right', permissionId: '002001'
         }
       },
       {
         path: 'create-proxy',
         component: () => import('@/views/agency/create-proxy'),
         name: 'createProxy',
-        meta: { title: '创建代理', icon: 'edit', permissionId: '002002'
+        meta: { title: '创建代理', icon: 'el-icon-caret-right', permissionId: '002002'
         }
 
       }
@@ -165,7 +165,7 @@ export const asyncRoutes = [
     alwaysShow: true,
     meta: {
       title: '财务管理',
-      icon: 'guide',
+      icon: 'money',
       permissionId: '003'
 
     },
@@ -174,35 +174,35 @@ export const asyncRoutes = [
         path: 'deposit-list',
         component: () => import('@/views/financial/deposit-list'),
         name: 'depositList',
-        meta: { title: '客户入金列表', icon: 'edit', permissionId: '003001'
+        meta: { title: '客户入金列表', icon: 'el-icon-caret-right', permissionId: '003001'
         }
       },
       {
         path: 'deposit-audit',
         component: () => import('@/views/financial/deposit-audit'),
         name: 'depositAudit',
-        meta: { title: '客户入金审核', icon: 'edit', permissionId: '003002'
+        meta: { title: '客户入金审核', icon: 'el-icon-caret-right', permissionId: '003002'
         }
       },
       {
         path: 'refusal-deposit',
         component: () => import('@/views/financial/refusal-deposit'),
         name: 'refusalDeposit',
-        meta: { title: '拒绝入金列表', icon: 'list', permissionId: '003003'
+        meta: { title: '拒绝入金列表', icon: 'el-icon-caret-right', permissionId: '003003'
         }
       },
       {
         path: 'withdrawal-list',
         component: () => import('@/views/financial/withdrawal-list'),
         name: 'withdrawalList',
-        meta: { title: '客户出金列表', icon: 'list', permissionId: '003004'
+        meta: { title: '客户出金列表', icon: 'el-icon-caret-right', permissionId: '003004'
         }
       },
       {
         path: 'refusal-withdrawal',
         component: () => import('@/views/financial/refusal-withdrawal'),
         name: 'refusalWithdrawal',
-        meta: { title: '拒绝出金列表', icon: 'list', permissionId: '003005'
+        meta: { title: '拒绝出金列表', icon: 'el-icon-caret-right', permissionId: '003005'
         }
       }
     ]
@@ -214,7 +214,7 @@ export const asyncRoutes = [
     name: 'position',
     meta: {
       title: '持仓列表',
-      icon: 'el-icon-s-help',
+      icon: 'el-icon-s-fold',
       permissionId: '004'
 
     },
@@ -223,14 +223,14 @@ export const asyncRoutes = [
         path: 'position-list',
         component: () => import('@/views/position/position-list'),
         name: 'positionList',
-        meta: { title: '持仓列表', icon: 'edit', permissionId: '004001'
+        meta: { title: '持仓列表', icon: 'el-icon-caret-right', permissionId: '004001'
         }
       },
       {
         path: 'settlement-list',
         component: () => import('@/views/position/settlement-list'),
         name: 'settlementList',
-        meta: { title: '结算列表', icon: 'edit', permissionId: '004002'
+        meta: { title: '结算列表', icon: 'el-icon-caret-right', permissionId: '004002'
         }
 
       }
@@ -243,7 +243,7 @@ export const asyncRoutes = [
     name: 'platformStatistics',
     meta: {
       title: '平台统计',
-      icon: 'el-icon-s-help',
+      icon: 'el-icon-s-platform',
       permissionId: '005'
 
     },
@@ -252,14 +252,14 @@ export const asyncRoutes = [
         path: 'agency-statistics',
         component: () => import('@/views/platform-statistics/agency-statistics'),
         name: 'agencyStatistics',
-        meta: { title: '代理统计', icon: 'edit', permissionId: '005001'
+        meta: { title: '代理统计', icon: 'el-icon-caret-right', permissionId: '005001'
         }
       },
       {
         path: 'user-statistics',
         component: () => import('@/views/platform-statistics/user-statistics'),
         name: 'userStatistics',
-        meta: { title: '用户统计', icon: 'edit', permissionId: '005002'
+        meta: { title: '用户统计', icon: 'el-icon-caret-right', permissionId: '005002'
         }
 
       }
@@ -268,19 +268,33 @@ export const asyncRoutes = [
   },
   {
     path: '/editPassword',
-    component: () => import('@/views/editPassword'),
-    name: 'Tab1',
-    meta: { title: '修改密码', icon: 'tab', permissionId: '006'
-    }
-
-  },
-  {
-    path: '/tab',
-    component: () => import('@/views/tab/index'),
-    name: 'Tab',
-    meta: { title: '退出', icon: 'tab', permissionId: '007' }
-
+    component: Layout,
+    redirect: '/editPassword',
+    children: [
+      {
+        path: 'editPassword',
+        component: () => import('@/views/editPassword/index'),
+        name: 'editPassword',
+        meta: { title: '修改密码', icon: 'lock', permissionId: '006' }
+      }
+    ],
+    meta: { title: '修改密码', icon: 'lock', permissionId: '006' }
   }
+  // {
+  //   path: '/editPassword',
+  //   component: () => import('@/views/editPassword'),
+  //   name: 'Tab1',
+  //   meta: { title: '修改密码', icon: 'tab', permissionId: '006'
+  //   }
+
+  // },
+  // {
+  //   path: '/tab',
+  //   component: () => import('@/views/tab/index'),
+  //   name: 'Tab',
+  //   meta: { title: '退出', icon: 'tab', permissionId: '007' }
+
+  // }
 
 ]
 

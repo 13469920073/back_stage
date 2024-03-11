@@ -8,25 +8,27 @@ export function getumslist(data) {
   })
 }
 // 获取列表-编辑
-export function updateums(token) {
+export function updateums(data) {
   return request({
-    url: '//admin/auth/updateums',
-    method: 'get',
-    params: { token }
+    url: '/admin/auth/updateums',
+    method: 'put',
+    data
   })
 }
 // 获取列表---删除
-export function deleteums() {
+export function deleteums(data) {
   return request({
     url: '/admin/auth/deleteums',
-    method: 'post'
+    method: 'delete',
+    data
   })
 }
 
 // 获取列表---新增
-export function addums() {
+export function addums(data) {
   return request({
     url: '/admin/auth/addums',
-    method: 'post'
+    method: 'post',
+    data
   })
 }

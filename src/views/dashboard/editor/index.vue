@@ -12,7 +12,7 @@
           创建时间： {{ form.createTime }}
         </el-col>
         <el-col :span="8" style="margin-top: 20px;">
-          邀请码： <span style="font-size: 18px;">{{ form.inviteCode }}</span>
+          邀请码： <span style="font-size: 28px;">{{ form.inviteCode }}</span>
         </el-col>
       </el-row>
       <!-- <pan-thumb :image="avatar" style="float: left">
@@ -60,15 +60,12 @@ export default {
     ])
   },
   created() {
-    // this.getUserInfo()
+    this.getUserInfo()
   },
   methods: {
-
     getUserInfo() {
-      console.log('获取用户信息')
       getAdmininfo().then((res) => {
-        console.log('======', res)
-        this.form = res
+        this.form = res.data
       })
     }
   }

@@ -162,7 +162,7 @@ export default {
         callback: action => {
           const param = {
             accountReqVo: row.id,
-            status: 1,
+            status: 3,
             pageNum: this.form.pageNum,
             pageSize: this.form.pageSize
           }
@@ -183,7 +183,7 @@ export default {
         callback: action => {
           const param = {
             accountReqVo: row.id,
-            status: 1,
+            status: 4,
             pageNum: this.form.pageNum,
             pageSize: this.form.pageSize
           }
