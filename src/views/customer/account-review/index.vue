@@ -42,6 +42,7 @@
               <span v-else-if="item.rowName==='BiChannel'">{{ row[item.rowName] | dict('BiChannelList') }}</span>
               <span v-else>{{ row[item.rowName] }}</span>-->
               <span v-if="item.rowName==='BiChannel'">{{ row[item.rowName] | dict('BiChannelList') }}</span>
+              <span v-else-if="item.rowName ==='applicationTime'">{{ dayjs(row[item.rowName]).format('YYYY-MM-DD HH:mm:ss') }}</span>
               <span v-else> {{ row[item.rowName] }}</span>
             </template>
           </el-table-column>
@@ -130,7 +131,7 @@ export default {
     }
   },
   created() {
-
+    this.getList()
   },
   methods: {
 
@@ -156,13 +157,14 @@ export default {
     },
     // 通过
     onPass(row, index) {
-      console.log('通过审核')
+      console.log('通过审核', row)
       this.$alert('确定审核通过吗', '提示', {
         confirmButtonText: '确定',
         callback: action => {
           const param = {
             accountReqVo: row.id,
             status: 3,
+            id: row.id,
             pageNum: this.form.pageNum,
             pageSize: this.form.pageSize
           }
@@ -184,6 +186,7 @@ export default {
           const param = {
             accountReqVo: row.id,
             status: 4,
+            id: row.id,
             pageNum: this.form.pageNum,
             pageSize: this.form.pageSize
           }

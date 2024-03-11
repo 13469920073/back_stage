@@ -46,7 +46,7 @@ Object.keys(filters).forEach(key => {
 })
 // 引入日期组件
 import dayjs from 'dayjs'
-Vue.prototype.$dayjs = dayjs
+Vue.prototype.dayjs = dayjs
 
 Vue.config.productionTip = false
 // 将字典映射方法绑定到vue实例身上 例如 this.$dict('CNY','CurrencyList')调用

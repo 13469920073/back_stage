@@ -9,7 +9,7 @@
           联系方式： {{ form.phonenumber }}
         </el-col>
         <el-col :span="8"><div class="grid-content bg-purple" />
-          创建时间： {{ form.createTime }}
+          创建时间： {{ dayjs(form.createTime).format('YYYY-MM-DD HH:mm:ss') }}
         </el-col>
         <el-col :span="8" style="margin-top: 20px;">
           邀请码： <span style="font-size: 28px;">{{ form.inviteCode }}</span>

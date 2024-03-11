@@ -36,11 +36,12 @@
           style="width: 100%;"
           @cell-click="chooseItem"
         >
-          <el-table-column v-for="(item,index) in tableList" :key="index" :label="item.label" min-width="110px" align="center">
+          <el-table-column v-for="(item,index) in tableList" :key="index" :label="item.label" align="center">
             <template slot-scope="{row}">
               <div v-if="item.rowName ==='photoFront'" class="vicp-preview-item" @click="onView(row)">
                 <img :src="row[item.rowName]" style="width: 40px; height: 40px;">
               </div>
+              <span v-else-if="item.rowName ==='createTime'">{{ dayjs(row[item.rowName]).format('YYYY-MM-DD HH:mm:ss') }}</span>
               <!--   <span v-if="item.rowName ==='BiTime'">{{ row[item.rowName].split('.')[0] }}</span>
               <span v-else-if="item.rowName==='BiChannel'">{{ row[item.rowName] | dict('BiChannelList') }}</span>
               <span v-else>{{ row[item.rowName] }}</span>-->
@@ -167,6 +168,7 @@ export default {
           const param = {
             customerReqVo: row.id,
             status: 1,
+            id: row.id,
             pageNum: this.form.pageNum,
             pageSize: this.form.pageSize
           }

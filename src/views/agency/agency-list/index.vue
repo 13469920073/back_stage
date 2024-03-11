@@ -38,7 +38,8 @@
         >
           <el-table-column v-for="(item,index) in tableList" :key="index" :label="item.label" min-width="110px" align="center">
             <template slot-scope="{row}">
-              <span> {{ row[item.rowName] }}</span>
+              <span v-if="item.rowName ==='createTime'">{{ dayjs(row[item.rowName]).format('YYYY-MM-DD HH:mm:ss') }}</span>
+              <span v-else> {{ row[item.rowName] }}</span>
             </template>
           </el-table-column>
           <!-- 操作 -->
