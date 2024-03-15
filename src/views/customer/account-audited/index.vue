@@ -40,8 +40,9 @@
             <template slot-scope="{row}">
               <span v-if="item.rowName ==='accountName' || item.rowName ==='approvalTime'">{{ dayjs(row[item.rowName]).format('YYYY-MM-DD HH:mm:ss') }}</span>
               <!--   <span v-if="item.rowName ==='BiTime'">{{ row[item.rowName].split('.')[0] }}</span>
-              <span v-else-if="item.rowName==='BiChannel'">{{ row[item.rowName] | dict('BiChannelList') }}</span>
+
               <span v-else>{{ row[item.rowName] }}</span>-->
+              <span v-else-if="item.rowName==='status'">{{ $dict(row[item.rowName],'StatusList') }}</span>
               <span v-else>{{ row[item.rowName] }}</span>
             </template>
           </el-table-column>

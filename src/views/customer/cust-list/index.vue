@@ -38,7 +38,7 @@
         >
           <el-table-column v-for="(item,index) in tableList" :key="index" :label="item.label" min-width="110px" align="center">
             <template slot-scope="{row}">
-              <span v-if="item.rowName ==='status'">{{ $dict(row[item.rowName],'StatusList') .split('.')[0] }}</span>
+              <span v-if="item.rowName ==='status'">{{ $dict(row[item.rowName],'StatusList') }}</span>
               <!--  <span v-else-if="item.rowName==='BiChannel'">{{ row[item.rowName] | dict('BiChannelList') }}</span>
               <span v-else>{{ row[item.rowName] }}</span>-->
               <span v-else>{{ row[item.rowName] }}</span>

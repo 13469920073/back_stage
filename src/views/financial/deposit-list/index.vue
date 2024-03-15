@@ -41,6 +41,8 @@
               <div v-if="item.rowName ==='photo'" class="vicp-preview-item" @click="onView(row)">
                 <img :src="row[item.rowName]" style="width: 40px; height: 40px;">
               </div>
+              <span v-else-if="item.rowName==='status'">{{ $dict(row[item.rowName],'StatusList') }}</span>
+
               <!--   <span v-if="item.rowName ==='BiTime'">{{ row[item.rowName].split('.')[0] }}</span>
               <span v-else-if="item.rowName==='BiChannel'">{{ row[item.rowName] | dict('BiChannelList') }}</span>
               <span v-else>{{ row[item.rowName] }}</span>-->
