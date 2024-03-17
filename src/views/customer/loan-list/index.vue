@@ -48,6 +48,12 @@
               <span v-else>{{ row[item.rowName] }}</span>
             </template>
           </el-table-column>
+          <el-table-column label="操作" width="220">
+            <template slot-scope="scope">
+              <el-button size="small" type="primary" @click="onCustomeracc(scope.row,scope.$index)">通过</el-button>
+              <el-button size="small" type="danger" @click="oCustomeraN(scope.row,scope.$index)">不通过</el-button>
+            </template>
+          </el-table-column>
         </el-table>
       </div>
       <!-- 分页 -->
@@ -62,7 +68,7 @@
 </template>
 
 <script>
-import { cusreviewinglist } from '@/api/customer'
+import { cusreviewinglist, updatecustomer } from '@/api/customer'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 // import { turn } from 'mock/user'
 export default {
@@ -154,7 +160,52 @@ export default {
     clickTens(val) {
 
     },
-
+    // 确认审核
+    oncustomeracc(row, index) {
+      this.$alert('确定审核通过吗？', '提示', {
+        confirmButtonText: '确定',
+        callback: action => {
+          const param = {
+            customerReqVo: row.id,
+            status: 3,
+            id: row.id,
+            pageNum: this.form.pageNum,
+            pageSize: this.form.pageSize
+          }
+          updatecustomer(param).then(response => {
+            this.$message({
+              type: 'success',
+              message: '审核成功'
+            })
+          })
+          // this.$message({
+          //   type: 'info',
+          //   message: `action: ${action}`
+          // })
+        }
+      })
+    },
+    // 审核不通过
+    oCustomeraN(row) {
+      this.$alert('确定审核不通过吗？', '提示', {
+        confirmButtonText: '确定',
+        callback: action => {
+          const param = {
+            customerReqVo: row.id,
+            status: 4,
+            id: row.id,
+            pageNum: this.form.pageNum,
+            pageSize: this.form.pageSize
+          }
+          updatecustomer(param).then(response => {
+            this.$message({
+              type: 'success',
+              message: '审核成功'
+            })
+          })
+        }
+      })
+    },
     handleResole(res) {
 
     },
