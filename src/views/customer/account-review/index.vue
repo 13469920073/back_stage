@@ -44,7 +44,7 @@
               <span v-if="item.rowName==='BiChannel'">{{ row[item.rowName] | dict('BiChannelList') }}</span>
               <span v-else-if="item.rowName==='status'">{{ $dict(row[item.rowName],'StatusList') }}</span>
 
-              <span v-else-if="item.rowName ==='applicationTime'">{{ dayjs(row[item.rowName]).format('YYYY-MM-DD HH:mm:ss') }}</span>
+              <span v-else-if="item.rowName ==='applicationTime'">{{ row[item.rowName]?dayjs(row[item.rowName]).format('YYYY-MM-DD HH:mm:ss'):'-' }}</span>
               <span v-else> {{ row[item.rowName] }}</span>
             </template>
           </el-table-column>
@@ -171,6 +171,7 @@ export default {
             pageSize: this.form.pageSize
           }
           updatecustomeracc(param).then(response => {
+            this.getList()
             this.$message({
               type: 'success',
               message: '审核成功'
@@ -193,6 +194,7 @@ export default {
             pageSize: this.form.pageSize
           }
           updatecustomeracc(param).then(response => {
+            this.getList()
             this.$message({
               type: 'success',
               message: '审核成功'

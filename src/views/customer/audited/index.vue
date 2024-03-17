@@ -38,7 +38,7 @@
         >
           <el-table-column v-for="(item,index) in tableList" :key="index" :label="item.label" align="center">
             <template slot-scope="{row}">
-              <div v-if="item.rowName ==='photoFront'" class="vicp-preview-item" @click="onView(row)">
+              <div v-if="item.rowName ==='photoFront'||item.rowName ==='photoBack'" class="vicp-preview-item" @click="onView(row)">
                 <img :src="row[item.rowName]" style="width: 40px; height: 40px;">
               </div>
               <span v-else-if="item.rowName ==='createTime'">{{ dayjs(row[item.rowName]).format('YYYY-MM-DD HH:mm:ss') }}</span>

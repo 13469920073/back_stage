@@ -38,10 +38,11 @@
         >
           <el-table-column v-for="(item,index) in tableList" :key="index" :label="item.label" min-width="110px" align="center">
             <template slot-scope="{row}">
-              <span v-if="item.rowName ==='accountName' || item.rowName ==='approvalTime'">{{ dayjs(row[item.rowName]).format('YYYY-MM-DD HH:mm:ss') }}</span>
+              <!-- <span v-if="item.rowName ==='accountName'">{{ row[item.rowName] }}</span> -->
               <!--   <span v-if="item.rowName ==='BiTime'">{{ row[item.rowName].split('.')[0] }}</span>
 
               <span v-else>{{ row[item.rowName] }}</span>-->
+              <span v-if="item.rowName ==='applicationTime' || item.rowName ==='approvalTime'">{{ row[item.rowName]?dayjs(row[item.rowName]).format('YYYY-MM-DD HH:mm:ss'):'-' }}</span>
               <span v-else-if="item.rowName==='status'">{{ $dict(row[item.rowName],'StatusList') }}</span>
               <span v-else>{{ row[item.rowName] }}</span>
             </template>
@@ -115,7 +116,7 @@ export default {
         { label: '用户昵称', rowName: 'nickName' },
         { label: '账户类型', rowName: 'type' },
         { label: '账户地址', rowName: 'address' },
-        { label: '申请时间', rowName: 'accountName' },
+        { label: '申请时间', rowName: 'applicationTime' },
         { label: '审核时间', rowName: 'approvalTime' },
         { label: '状态', rowName: 'status' }
       ],

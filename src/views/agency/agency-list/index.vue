@@ -67,7 +67,7 @@
           <el-input v-model="agency.passWord" placeholder="请输入登录密码" />
           <div style="color:red">*不填为原密码</div>
         </el-form-item>
-        <el-form-item label="分佣比例" prop="shareRatio" style="display: flex;margin-left: 0;">
+        <el-form-item label="分佣比例" prop="shareRatio" class="shareRatiolist" style="display: flex;margin-left: 0;">
           <el-input v-model="agency.shareRatio" placeholder="请输入分佣比例" />
           <span>%</span>
         </el-form-item>
@@ -196,6 +196,7 @@ export default {
         confirmButtonText: '确定',
         callback: action => {
           deleteums({ id: row.id }).then(response => {
+            this.getList()
             this.$message({
               type: 'success',
               message: `删除成功`
@@ -211,6 +212,7 @@ export default {
           updateums(this.agency).then(() => {
             console.log('======')
             this.dialogVisible = false
+            this.getList()
             this.$notify({
               title: '提示',
               message: '修改成功',
@@ -249,5 +251,11 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.shareRatiolist {
+  ::v-deep .el-form-item__content{
+     margin-left: 0px !important;
+    display: flex;
+}
+}
 
 </style>
