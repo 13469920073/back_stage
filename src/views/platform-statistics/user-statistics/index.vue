@@ -76,7 +76,7 @@
         </el-table>
       </div>
       <!-- 分页 -->
-      <pagination v-show="total>0" :total="total" :page.sync="form.page" :limit.sync="form.limit" @pagination="getList" />
+      <pagination v-show="total>0" :total="total" :page.sync="form.pageNum" :limit.sync="form.limit" @pagination="getList" />
 
     </div>
     <el-dialog :visible.sync="dialogVisible" width="50%">
@@ -169,10 +169,11 @@ export default {
   methods: {
     // 获取代理列表下拉
     getselect() {
+      this.listLoading = true
       custstatisticslist(this.form).then(response => {
         this.UserJobList = response.data.items
-        // this.total = response.data.total
-        // this.listLoading = false
+        this.total = response.data.total
+        this.listLoading = false
       })
     },
     // 查询选择

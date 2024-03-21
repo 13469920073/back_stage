@@ -49,10 +49,16 @@
               <span v-else>{{ row[item.rowName] }}</span>
             </template>
           </el-table-column>
+          <el-table-column label="操作" width="220">
+            <template slot-scope="scope">
+              <el-button size="small" type="primary" @click="onPass(scope.row,scope.$index)">通过</el-button>
+              <el-button size="small" type="danger" @click="onNotPass(scope.row,scope.$index)">不通过</el-button>
+            </template>
+          </el-table-column>
         </el-table>
       </div>
       <!-- 分页 -->
-      <pagination v-show="total>0" :total="total" :page.sync="form.page" :limit.sync="form.limit" @pagination="getList" />
+      <pagination v-show="total>0" :total="total" :page.sync="form.pageNum" :limit.sync="form.limit" @pagination="getList" />
 
     </div>
     <el-dialog :visible.sync="dialogVisible" width="50%">
@@ -63,7 +69,7 @@
 </template>
 
 <script>
-import { custincomelist } from '@/api/financial'
+import { custincomelist, updatecustincome } from '@/api/financial'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 // import { turn } from 'mock/user'
 export default {
@@ -168,6 +174,52 @@ export default {
 
     getBranchDialogValue(val) {
 
+    },
+    // 通过
+    onPass(row, index) {
+      console.log('通过审核', row)
+      this.$alert('确定审核通过吗', '提示', {
+        confirmButtonText: '确定',
+        callback: action => {
+          const param = {
+            accountReqVo: row.id,
+            status: 3,
+            id: row.id,
+            pageNum: this.form.pageNum,
+            pageSize: this.form.pageSize
+          }
+          updatecustincome(param).then(response => {
+            this.getList()
+            this.$message({
+              type: 'success',
+              message: '审核成功'
+            })
+          })
+        }
+      })
+    },
+    // 不通过
+    onNotPass(row, index) {
+      console.log('通过审核', row)
+      this.$alert('确定审核不通过吗', '提示', {
+        confirmButtonText: '确定',
+        callback: action => {
+          const param = {
+            accountReqVo: row.id,
+            status: 4,
+            id: row.id,
+            pageNum: this.form.pageNum,
+            pageSize: this.form.pageSize
+          }
+          updatecustincome(param).then(response => {
+            this.getList()
+            this.$message({
+              type: 'success',
+              message: '审核成功'
+            })
+          })
+        }
+      })
     },
     // 选中一行
     chooseItem(row) {

@@ -22,6 +22,7 @@
               <el-button type="primary" icon="el-icon-edit" @click="handle('det')">清空</el-button>
             </div>
           </el-form-item>
+          <el-button type="primary" icon="el-icon-edit" @click="onRecharge('det')">充值</el-button>
         </el-form>
       </div>
 
@@ -50,12 +51,46 @@
               <span v-else>{{ row[item.rowName] }}</span>
             </template>
           </el-table-column>
+          <el-table-column label="操作" width="220">
+            <template slot-scope="scope">
+              <el-button size="small" type="primary" @click="onPass(scope.row,scope.$index)">通过</el-button>
+              <el-button size="small" type="danger" @click="onNotPass(scope.row,scope.$index)">不通过</el-button>
+            </template>
+          </el-table-column>
         </el-table>
       </div>
       <!-- 分页 -->
-      <pagination v-show="total>0" :total="total" :page.sync="form.page" :limit.sync="form.limit" @pagination="getList" />
+      <pagination v-show="total>0" :total="total" :page.sync="form.pageNum" :limit.sync="form.limit" @pagination="getList" />
 
     </div>
+    <el-dialog :visible.sync="dialogVisible2" title="充值">
+      <el-form :model="agency" label-width="80px" :rules="rules" label-position="left">
+        <el-form-item label="充值币种" prop="type">
+          <el-select ref="select" v-model="agency.type" placeholder="请选择">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="充值数量" prop="incomeNum">
+          <el-input v-model="agency.incomeNum" placeholder="请输入充值数量" />
+        </el-form-item>
+        <!-- <el-form-item label="登录密码" prop="passWord">
+          <el-input v-model="agency.passWord" placeholder="请输入登录密码" />
+          <div style="color:red">*不填为原密码</div>
+        </el-form-item> -->
+        <el-form-item label="用户编号" prop="nickName">
+          <el-input v-model="agency.nickName" placeholder="请输入用户编号" />
+        </el-form-item>
+        <!-- <el-form-item label="申请来源" prop="phone">
+          <el-select ref="select" v-model="value" placeholder="请选择">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
+        </el-form-item> -->
+      </el-form>
+      <div style="text-align:right;">
+        <el-button type="danger" @click="save">确定</el-button>
+        <el-button type="primary" @click="confirmRole">取消</el-button>
+      </div>
+    </el-dialog>
     <el-dialog :visible.sync="dialogVisible" width="50%">
       <img :src="previewpic" alt="" width="100%">
     </el-dialog>
@@ -64,7 +99,7 @@
 </template>
 
 <script>
-import { incomereviewinglist } from '@/api/financial'
+import { incomereviewinglist, updatecustincome, insertincomebyadmin } from '@/api/financial'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 // import { turn } from 'mock/user'
 export default {
@@ -74,29 +109,47 @@ export default {
     return {
       tableKey: 0, // 表格
       dialogVisible: false,
+      dialogVisible2: false,
       previewpic: '',
       arr: [],
+      options: [{
+        label: 'BTH',
+        value: 'BTH'
+      }, {
+        label: 'ETH',
+        value: 'ETH'
+      }, {
+        label: 'EOS',
+        value: 'EOS'
+      }, {
+        label: 'TON',
+        value: 'TON'
+      }, {
+        label: 'LTC',
+        value: 'LTC'
+      }, {
+        label: 'XRP',
+        value: 'XRP'
+      }, {
+        label: 'BCH',
+        value: 'BCH'
+      }, {
+        label: 'ADA',
+        value: 'ADA'
+      }, {
+        label: 'TRX',
+        value: 'TRX'
+      }, {
+        label: 'BNB',
+        value: 'BNB'
+      }],
+      agency: {
+        incomeNum: '',
+        type: '',
+        nickName: ''
+      },
       list: [
-        {
-          nickName: 'NO.73401',
-          loginAccount: '61-432012117',
-          superior: '张',
-          PartyName: '48980.5210',
-          realName: '伊藤和成',
-          ProdCategory: '张',
-          BiStateName: '张',
-          photo: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
-        },
-        {
-          nickName: 'NO.73401',
-          loginAccount: '61-432012117',
-          superior: '张',
-          PartyName: '48980.5210',
-          realName: '伊藤和成',
-          ProdCategory: '张',
-          BiStateName: '张',
-          photo: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
-        }
+
       ], // 表格
       total: 0, // 分页
       form: {
@@ -111,7 +164,11 @@ export default {
       showEmpty: 'table',
       showMainPage: true,
       temp: {},
-
+      rules: {
+        type: [{ required: true, message: '充值币种不能为空', trigger: 'change' }],
+        incomeNum: [{ required: true, message: '充值数量不能为空', trigger: 'change' }],
+        nickName: [{ required: true, message: '用户编号不能为空', trigger: 'blur' }]
+      },
       searchFormRules: {
         OrgName: [{ required: true, message: '请选择机构', trigger: 'change' }]
 
@@ -129,7 +186,8 @@ export default {
         { label: '审核时间', rowName: 'approvalTime' },
         { label: '订单号', rowName: 'orderId' },
         { label: '状态', rowName: 'status' },
-        { label: '操作', rowName: 'photo' }
+        { label: '查看凭证', rowName: 'photo' }
+        // { label: '操作', rowName: 'photo' }
       ],
       option: {
         placeholder: ' 请输入金额'
@@ -158,6 +216,35 @@ export default {
     clickTens(val) {
 
     },
+    // 充值
+    onRecharge() {
+      this.dialogVisible2 = true
+    },
+    // 确定充值
+    save() {
+      console.log('queding', this.agency)
+      this.$refs['form'].validate((valid) => {
+        if (valid) {
+          insertincomebyadmin(this.agency).then(() => {
+            console.log('======')
+            this.dialogVisible2 = false
+            this.getList()
+            this.$notify({
+              title: '提示',
+              message: '充值成功',
+              type: 'success',
+              duration: 2000
+            })
+          }).catch(error => {
+            console.log('错误', error)
+          })
+        }
+      })
+    },
+    // 取消
+    confirmRole() {
+      console.log('取消')
+    },
     handleResole(res) {
 
     },
@@ -184,7 +271,55 @@ export default {
     getprocessDialogValue(val) {
 
     },
-
+    // 通过
+    onPass(row, index) {
+      console.log('通过审核', row)
+      this.$confirm('确定审核通过吗', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const param = {
+          customerId: row.id,
+          status: 3,
+          id: row.id,
+          pageNum: this.form.pageNum,
+          pageSize: this.form.pageSize
+        }
+        updatecustincome(param).then(response => {
+          this.getList()
+          this.$message({
+            type: 'success',
+            message: '审核成功'
+          })
+        })
+      }).catch(() => {
+      })
+    },
+    // 不通过
+    onNotPass(row, index) {
+      this.$confirm('确定审核不通过吗', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const param = {
+          customerId: row.id,
+          status: 4,
+          id: row.id,
+          pageNum: this.form.pageNum,
+          pageSize: this.form.pageSize
+        }
+        updatecustincome(param).then(response => {
+          this.getList()
+          this.$message({
+            type: 'success',
+            message: '审核成功'
+          })
+        })
+      }).catch(() => {
+      })
+    },
     // 详情关闭
     closeApproval() {
 

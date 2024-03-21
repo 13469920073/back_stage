@@ -38,7 +38,7 @@
         >
           <el-table-column v-for="(item,index) in tableList" :key="index" :label="item.label" align="center">
             <template slot-scope="{row}">
-              <div v-if="item.rowName ==='photoFront'||item.rowName ==='photoBack'" class="vicp-preview-item" @click="onView(row)">
+              <div v-if="item.rowName ==='photoFront'||item.rowName ==='photoBack'" class="vicp-preview-item" @click="onView(row,item.rowName)">
                 <img :src="row[item.rowName]" style="width: 40px; height: 40px;">
               </div>
               <span v-else-if="item.rowName ==='createTime'">{{ dayjs(row[item.rowName]).format('YYYY-MM-DD HH:mm:ss') }}</span>
@@ -56,7 +56,7 @@
         </el-table>
       </div>
       <!-- 分页 -->
-      <pagination v-show="total>0" :total="total" :page.sync="form.page" :limit.sync="form.limit" @pagination="getList" />
+      <pagination v-show="total>0" :total="total" :page.sync="form.pageNum" :limit.sync="form.limit" @pagination="getList" />
 
     </div>
     <el-dialog :visible.sync="dialogVisible" width="50%">
@@ -154,7 +154,11 @@ export default {
     // 图片预览
     onView(row) {
       this.dialogVisible = true
-      this.previewpic = row.photoFront
+      if (name === 'photoFront') {
+        this.previewpic = row.photoFront
+      } else {
+        this.previewpic = row.photoBack
+      }
     },
     clickTens(val) {
 
@@ -173,6 +177,7 @@ export default {
             pageSize: this.form.pageSize
           }
           updatecustomer(param).then(response => {
+            this.getList()
             this.$message({
               type: 'success',
               message: '重置成功'

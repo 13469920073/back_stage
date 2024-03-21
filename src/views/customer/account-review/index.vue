@@ -58,7 +58,7 @@
         </el-table>
       </div>
       <!-- 分页 -->
-      <pagination v-show="total>0" :total="total" :page.sync="form.page" :limit.sync="form.limit" @pagination="getList" />
+      <pagination v-show="total>0" :total="total" :page.sync="form.pageNum" :limit.sync="form.limit" @pagination="getList" />
 
     </div>
 
@@ -160,47 +160,54 @@ export default {
     // 通过
     onPass(row, index) {
       console.log('通过审核', row)
-      this.$alert('确定审核通过吗', '提示', {
+      this.$confirm('确定审核通过吗', '提示', {
         confirmButtonText: '确定',
-        callback: action => {
-          const param = {
-            accountReqVo: row.id,
-            status: 3,
-            id: row.id,
-            pageNum: this.form.pageNum,
-            pageSize: this.form.pageSize
-          }
-          updatecustomeracc(param).then(response => {
-            this.getList()
-            this.$message({
-              type: 'success',
-              message: '审核成功'
-            })
-          })
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const param = {
+          accountReqVo: row.id,
+          status: 3,
+          id: row.id,
+          pageNum: this.form.pageNum,
+          pageSize: this.form.pageSize
         }
+        updatecustomeracc(param).then(response => {
+          this.getList()
+          this.$message({
+            type: 'success',
+            message: '审核成功'
+          })
+        })
+      }).catch(() => {
+        // this.$message({
+        //   type: 'info',
+        //   message: ''
+        // });
       })
     },
     // 不通过
     onNotPass(row, index) {
-      console.log('通过审核', row)
-      this.$alert('确定审核不通过吗', '提示', {
+      this.$confirm('确定审核不通过吗', '提示', {
         confirmButtonText: '确定',
-        callback: action => {
-          const param = {
-            accountReqVo: row.id,
-            status: 4,
-            id: row.id,
-            pageNum: this.form.pageNum,
-            pageSize: this.form.pageSize
-          }
-          updatecustomeracc(param).then(response => {
-            this.getList()
-            this.$message({
-              type: 'success',
-              message: '审核成功'
-            })
-          })
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const param = {
+          accountReqVo: row.id,
+          status: 4,
+          id: row.id,
+          pageNum: this.form.pageNum,
+          pageSize: this.form.pageSize
         }
+        updatecustomeracc(param).then(response => {
+          this.getList()
+          this.$message({
+            type: 'success',
+            message: '审核成功'
+          })
+        })
+      }).catch(() => {
       })
     },
     save() {

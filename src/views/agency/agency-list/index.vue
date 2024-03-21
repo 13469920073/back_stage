@@ -52,7 +52,7 @@
         </el-table>
       </div>
       <!-- 分页 -->
-      <pagination v-show="total>0" :total="total" :page.sync="form.page" :limit.sync="form.limit" @pagination="getList" />
+      <pagination v-show="total>0" :total="total" :page.sync="form.pageNum" :limit.sync="form.limit" @pagination="getList" />
 
     </div>
     <el-dialog :visible.sync="dialogVisible" :title="dialogType==='edit'?'修改':'新增'">
@@ -101,24 +101,7 @@ export default {
         userName: ''
       },
       list: [
-        {
-          nickName: 'NO.73401',
-          loginAccount: '61-432012117',
-          superior: '张',
-          PartyName: '48980.5210',
-          realName: '伊藤和成',
-          ProdCategory: '张',
-          BiStateName: '张'
-        },
-        {
-          nickName: 'NO.73401',
-          loginAccount: '61-432012117',
-          superior: '张',
-          PartyName: '48980.5210',
-          realName: '伊藤和成',
-          ProdCategory: '张',
-          BiStateName: '张'
-        }
+
       ], // 表格
       total: 0, // 分页
       form: {
@@ -192,17 +175,19 @@ export default {
     },
     // 不删除
     onDel(row, index) {
-      this.$alert('确定删除该代理吗', '提示', {
+      this.$confirm('确定删除该代理吗', '提示', {
         confirmButtonText: '确定',
-        callback: action => {
-          deleteums({ id: row.id }).then(response => {
-            this.getList()
-            this.$message({
-              type: 'success',
-              message: `删除成功`
-            })
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteums({ id: row.id }).then(response => {
+          this.getList()
+          this.$message({
+            type: 'success',
+            message: `删除成功`
           })
-        }
+        })
+      }).catch(() => {
       })
     },
     save() {

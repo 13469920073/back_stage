@@ -38,7 +38,7 @@
         >
           <el-table-column v-for="(item,index) in tableList" :key="index" :label="item.label" min-width="110px" align="center">
             <template slot-scope="{row}">
-              <div v-if="item.rowName ==='photoFront'||item.rowName ==='photoBack'" class="vicp-preview-item" @click="onView(row)">
+              <div v-if="item.rowName ==='photoFront'||item.rowName ==='photoBack'" class="vicp-preview-item" @click="onView(row,item.rowName)">
                 <img :src="row[item.rowName]" style="width: 40px; height: 40px;">
               </div>
               <span v-else-if="item.rowName ==='createTime'">{{ dayjs(row[item.rowName]).format('YYYY-MM-DD HH:mm:ss') }}</span>
@@ -50,14 +50,14 @@
           </el-table-column>
           <el-table-column label="操作" width="220">
             <template slot-scope="scope">
-              <el-button size="small" type="primary" @click="onCustomeracc(scope.row,scope.$index)">通过</el-button>
+              <el-button size="small" type="primary" @click="oncustomeraY(scope.row,scope.$index)">通过</el-button>
               <el-button size="small" type="danger" @click="oCustomeraN(scope.row,scope.$index)">不通过</el-button>
             </template>
           </el-table-column>
         </el-table>
       </div>
       <!-- 分页 -->
-      <pagination v-show="total>0" :total="total" :page.sync="form.page" :limit.sync="form.limit" @pagination="getList" />
+      <pagination v-show="total>0" :total="total" :page.sync="form.pageNum" :limit.sync="form.limit" @pagination="getList" />
 
     </div>
     <el-dialog :visible.sync="dialogVisible" width="50%">
@@ -153,57 +153,64 @@ export default {
       })
     },
     // 图片预览
-    onView(row) {
+    onView(row, name) {
       this.dialogVisible = true
-      this.previewpic = row.photoFront
+      if (name === 'photoFront') {
+        this.previewpic = row.photoFront
+      } else {
+        this.previewpic = row.photoBack
+      }
     },
     clickTens(val) {
 
     },
     // 确认审核
-    oncustomeracc(row, index) {
-      this.$alert('确定审核通过吗？', '提示', {
+    oncustomeraY(row, index) {
+      console.log('====')
+      this.$confirm('确定审核通过吗', '提示', {
         confirmButtonText: '确定',
-        callback: action => {
-          const param = {
-            customerReqVo: row.id,
-            status: 3,
-            id: row.id,
-            pageNum: this.form.pageNum,
-            pageSize: this.form.pageSize
-          }
-          updatecustomer(param).then(response => {
-            this.$message({
-              type: 'success',
-              message: '审核成功'
-            })
-          })
-          // this.$message({
-          //   type: 'info',
-          //   message: `action: ${action}`
-          // })
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const param = {
+          customerReqVo: row.id,
+          status: 3,
+          id: row.id,
+          pageNum: this.form.pageNum,
+          pageSize: this.form.pageSize
         }
+        updatecustomer(param).then(response => {
+          this.getList()
+          this.$message({
+            type: 'success',
+            message: '审核成功'
+          })
+        })
+      }).catch(() => {
       })
     },
     // 审核不通过
     oCustomeraN(row) {
-      this.$alert('确定审核不通过吗？', '提示', {
+      this.$confirm('确定审核不通过吗', '提示', {
         confirmButtonText: '确定',
-        callback: action => {
-          const param = {
-            customerReqVo: row.id,
-            status: 4,
-            id: row.id,
-            pageNum: this.form.pageNum,
-            pageSize: this.form.pageSize
-          }
-          updatecustomer(param).then(response => {
-            this.$message({
-              type: 'success',
-              message: '审核成功'
-            })
-          })
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const param = {
+          customerReqVo: row.id,
+          status: 4,
+          id: row.id,
+          pageNum: this.form.pageNum,
+          pageSize: this.form.pageSize
         }
+        updatecustomer(param).then(response => {
+          this.getList()
+          this.$message({
+            type: 'success',
+            message: '审核成功'
+          })
+        })
+      }).catch(() => {
       })
     },
     handleResole(res) {

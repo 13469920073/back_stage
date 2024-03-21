@@ -41,3 +41,20 @@ export function custoutlayreviewinglist(data) {
     data
   })
 }
+
+// 获取客户入金审核 --
+export function updatecustincome(data) {
+  return request({
+    url: '/financial/update/updatecustincome',
+    method: 'PUT',
+    data
+  })
+}
+// 代理用户代充金额 --
+export function insertincomebyadmin(data) {
+  return request({
+    url: '/financial/insert/insertincomebyadmin',
+    method: 'POST',
+    data
+  })
+}
