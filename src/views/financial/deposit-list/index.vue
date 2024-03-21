@@ -134,7 +134,7 @@ export default {
         { label: '审核时间', rowName: 'approvalTime' },
         { label: '订单号', rowName: 'orderId' },
         { label: '状态', rowName: 'status' },
-        { label: '操作', rowName: 'photo' }
+        { label: '查看凭证', rowName: 'photo' }
       ],
       option: {
         placeholder: ' 请输入金额'

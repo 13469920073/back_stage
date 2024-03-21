@@ -43,6 +43,7 @@
                 <img :src="row[item.rowName]" style="width: 40px; height: 40px;">
               </div>
               <span v-else-if="item.rowName==='status'">{{ $dict(row[item.rowName],'StatusList') }}</span>
+              <span v-else-if="item.rowName==='source'">{{ row[item.rowName] == '1'?'用户申请':'后台申请' }}</span>
 
               <span v-else-if="item.rowName ==='approvalTime'">{{ row[item.rowName]?dayjs(row[item.rowName]).format('YYYY-MM-DD HH:mm:ss'):'-' }}</span>
               <!--   <span v-if="item.rowName ==='BiTime'">{{ row[item.rowName].split('.')[0] }}</span>
@@ -186,7 +187,8 @@ export default {
         { label: '审核时间', rowName: 'approvalTime' },
         { label: '订单号', rowName: 'orderId' },
         { label: '状态', rowName: 'status' },
-        { label: '查看凭证', rowName: 'photo' }
+        { label: '查看凭证', rowName: 'photo' },
+        { label: '申请来源', rowName: 'source' }
         // { label: '操作', rowName: 'photo' }
       ],
       option: {
