@@ -22,7 +22,7 @@
               <el-button type="primary" icon="el-icon-edit" @click="handle('det')">清空</el-button>
             </div>
           </el-form-item>
-          <el-button type="primary" icon="el-icon-edit" @click="onRecharge('det')">充值</el-button>
+          <!-- <el-button type="primary" icon="el-icon-edit" @click="onRecharge('det')">充值</el-button> -->
         </el-form>
       </div>
 
@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import { incomereviewinglist, updatecustincome, insertincomebyadmin } from '@/api/financial'
+import { custoutlayreviewinglist, updatecustoutlay, insertincomebyadmin } from '@/api/financial'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 // import { turn } from 'mock/user'
 export default {
@@ -113,40 +113,7 @@ export default {
       dialogVisible2: false,
       previewpic: '',
       arr: [],
-      options: [{
-        label: 'BTH',
-        value: 'BTH'
-      }, {
-        label: 'ETH',
-        value: 'ETH'
-      }, {
-        label: 'EOS',
-        value: 'EOS'
-      }, {
-        label: 'TON',
-        value: 'TON'
-      }, {
-        label: 'LTC',
-        value: 'LTC'
-      }, {
-        label: 'XRP',
-        value: 'XRP'
-      }, {
-        label: 'BCH',
-        value: 'BCH'
-      }, {
-        label: 'ADA',
-        value: 'ADA'
-      }, {
-        label: 'TRX',
-        value: 'TRX'
-      }, {
-        label: 'BNB',
-        value: 'BNB'
-      }, {
-        label: 'USDT',
-        value: 'USDT'
-      }],
+      options: [],
       agency: {
         incomeNum: '',
         type: '',
@@ -183,15 +150,13 @@ export default {
         // table配置
         { label: '昵称', rowName: 'nickName' },
         { label: '真实姓名', rowName: 'realName' },
-        { label: '充值类型', rowName: 'type' },
-        { label: '充值数量', rowName: 'incomeNum' },
+        { label: '提现类型', rowName: 'type' },
+        { label: '提现数量', rowName: 'outlayNum' },
         { label: 'USTD数量', rowName: 'balance' },
-        { label: '手续费', rowName: 'accountName' },
+        { label: '手续费', rowName: 'premiumNum' },
         { label: '审核时间', rowName: 'approvalTime' },
         { label: '订单号', rowName: 'orderId' },
-        { label: '状态', rowName: 'status' },
-        { label: '查看凭证', rowName: 'photo' },
-        { label: '申请来源', rowName: 'source' }
+        { label: '状态', rowName: 'status' }
         // { label: '操作', rowName: 'photo' }
       ],
       option: {
@@ -207,7 +172,7 @@ export default {
     // 获取已审核客户
     getList() {
       this.listLoading = true
-      incomereviewinglist(this.form).then(response => {
+      custoutlayreviewinglist(this.form).then(response => {
         this.list = response.data.result
         this.total = response.data.totalCount
         this.listLoading = false
@@ -293,7 +258,7 @@ export default {
           pageNum: this.form.pageNum,
           pageSize: this.form.pageSize
         }
-        updatecustincome(param).then(response => {
+        updatecustoutlay(param).then(response => {
           this.getList()
           this.$message({
             type: 'success',
@@ -317,7 +282,7 @@ export default {
           pageNum: this.form.pageNum,
           pageSize: this.form.pageSize
         }
-        updatecustincome(param).then(response => {
+        updatecustoutlay(param).then(response => {
           this.getList()
           this.$message({
             type: 'success',

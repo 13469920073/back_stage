@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { custoutlayreviewinglist } from '@/api/financial'
+import { rejectcustoutlaylist } from '@/api/financial'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 // import { turn } from 'mock/user'
 export default {
@@ -122,14 +122,17 @@ export default {
         // table配置
         { label: '昵称', rowName: 'nickName' },
         { label: '真实姓名', rowName: 'realName' },
-        { label: '充值类型', rowName: 'type' },
-        { label: '充值数量', rowName: 'incomeNum' },
+        { label: '提现类型', rowName: 'type' },
+        { label: '提现数量', rowName: 'outlayNum' },
         { label: 'USTD数量', rowName: 'balance' },
-        { label: '手续费', rowName: 'accountName' },
-        { label: '审核时间', rowName: 'approvalTime' },
+        { label: '账号名称', rowName: 'nickName' },
+        { label: '账号地址', rowName: 'orderId' },
+
+        { label: '手续费', rowName: 'premiumNum' },
+        { label: '申请时间', rowName: 'approvalTime' },
         { label: '订单号', rowName: 'orderId' },
-        { label: '状态', rowName: 'status' },
-        { label: '操作', rowName: 'photo' }
+        { label: '状态', rowName: 'status' }
+        // { label: '操作', rowName: 'photo' }
       ],
       option: {
         placeholder: ' 请输入金额'
@@ -144,7 +147,7 @@ export default {
     // 获取已审核客户
     getList() {
       this.listLoading = true
-      custoutlayreviewinglist(this.form).then(response => {
+      rejectcustoutlaylist(this.form).then(response => {
         this.list = response.data.result
         this.total = response.data.totalCount
         this.listLoading = false

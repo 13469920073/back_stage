@@ -49,12 +49,12 @@
               <span v-else>{{ row[item.rowName] }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="220">
+          <!-- <el-table-column label="操作" width="220">
             <template slot-scope="scope">
               <el-button size="small" type="primary" @click="onPass(scope.row,scope.$index)">通过</el-button>
               <el-button size="small" type="danger" @click="onNotPass(scope.row,scope.$index)">不通过</el-button>
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
       </div>
       <!-- 分页 -->

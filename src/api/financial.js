@@ -41,6 +41,14 @@ export function custoutlayreviewinglist(data) {
     data
   })
 }
+// 获取客户拒绝审核列表  ----审核
+export function updatecustoutlay(data) {
+  return request({
+    url: '/financial/update/updatecustoutlay',
+    method: 'PUT',
+    data
+  })
+}
 
 // 获取客户入金审核 --
 export function updatecustincome(data) {
@@ -55,6 +63,14 @@ export function insertincomebyadmin(data) {
   return request({
     url: '/financial/insert/insertincomebyadmin',
     method: 'POST',
+    data
+  })
+}
+// 获取客户拒绝审核列表
+export function rejectcustoutlaylist(data) {
+  return request({
+    url: '/financial/get/rejectcustoutlaylist',
+    method: 'post',
     data
   })
 }

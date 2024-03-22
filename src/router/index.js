@@ -199,6 +199,13 @@ export const asyncRoutes = [
         }
       },
       {
+        path: 'withdrawal-audit',
+        component: () => import('@/views/financial/withdrawal-audit'),
+        name: 'withdrawalAudit',
+        meta: { title: '客户出金审核', icon: 'el-icon-caret-right', permissionId: '003004'
+        }
+      },
+      {
         path: 'refusal-withdrawal',
         component: () => import('@/views/financial/refusal-withdrawal'),
         name: 'refusalWithdrawal',
