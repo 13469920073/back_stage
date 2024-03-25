@@ -41,7 +41,7 @@
               <div v-if="item.rowName ==='photo'" class="vicp-preview-item" @click="onView(row)">
                 <img :src="row[item.rowName]" style="width: 40px; height: 40px;">
               </div>
-              <span v-else-if="item.rowName ==='approvalTime'">{{ row[item.rowName]?dayjs(row[item.rowName]).format('YYYY-MM-DD HH:mm:ss'):'-' }}</span>
+              <span v-else-if="item.rowName ==='updateTime'">{{ row[item.rowName]?dayjs(row[item.rowName]).format('YYYY-MM-DD HH:mm:ss'):'-' }}</span>
               <span v-else-if="item.rowName==='status'">{{ $dict(row[item.rowName],'StatusList') }}</span>
 
               <!--   <span v-if="item.rowName ==='BiTime'">{{ row[item.rowName].split('.')[0] }}</span>
@@ -129,7 +129,7 @@ export default {
         { label: '账号地址', rowName: 'orderId' },
 
         { label: '手续费', rowName: 'premiumNum' },
-        { label: '申请时间', rowName: 'approvalTime' },
+        { label: '驳回时间', rowName: 'updateTime' },
         { label: '订单号', rowName: 'orderId' },
         { label: '状态', rowName: 'status' }
         // { label: '操作', rowName: 'photo' }

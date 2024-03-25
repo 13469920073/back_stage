@@ -14,6 +14,17 @@
         <el-col :span="8" style="margin-top: 20px;">
           邀请码： <span style="font-size: 28px;">{{ form.inviteCode }}</span>
         </el-col>
+        <el-col :span="8" style="margin-top: 20px;">
+          TON涨跌：
+          <span style="font-size: 28px;">
+            <el-switch
+              v-model="switchValue"
+              active-value="open"
+              inactive-value="close"
+              @change="handleSwitchChange"
+            />
+          </span>
+        </el-col>
       </el-row>
       <!-- <pan-thumb :image="avatar" style="float: left">
         Your roles:
@@ -32,7 +43,7 @@
 </template>
 
 <script>
-import { getAdmininfo } from '@/api/user'
+import { getAdmininfo, ratechange, redisache } from '@/api/user'
 import { mapGetters } from 'vuex'
 // import PanThumb from '@/components/PanThumb'
 // import GithubCorner from '@/components/GithubCorner'
@@ -48,7 +59,9 @@ export default {
         nickName: '',
         createTime: '',
         inviteCode: '486307'
-      }
+
+      },
+      switchValue: null
       // emptyGif: 'https://wpimg.wallstcn.com/0e03b7da-db9e-4819-ba10-9016ddfdaed3'
     }
   },
@@ -61,14 +74,53 @@ export default {
   },
   created() {
     this.getUserInfo()
+    // this.getdata()
   },
   methods: {
     getUserInfo() {
       getAdmininfo().then((res) => {
         this.form = res.data
+        this.switchValue = this.form.openStatus
       })
+    },
+    // 开启涨跌
+    handleSwitchChange(value) {
+      if (value === 'open') {
+        ratechange({}).then((res) => {
+          this.getUserInfo()
+          this.$notify({
+            title: '提示',
+            message: '已打开',
+            type: 'success',
+            duration: 2000
+          })
+        }).catch(error => {
+          console.log(error)
+        })
+      } else {
+        // 停止
+        redisache({}).then((res) => {
+          this.getUserInfo()
+          this.$notify({
+            title: '提示',
+            message: '已关闭',
+            type: 'success',
+            duration: 2000
+          })
+        }).catch(error => {
+          console.log(error)
+        })
+      }
+
+    // 这里可以执行你的逻辑代码
     }
+    // getdata() {
+    //   getratebody({}).then((res) => {
+    //     console.log('rrrrrrrrr', res)
+    //   })
+    // }
   }
+
 }
 </script>
 

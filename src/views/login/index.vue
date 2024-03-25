@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
+// import { validUsername } from '@/utils/validate'
 // import SocialSign from './components/SocialSignin'
 
 export default {
@@ -91,11 +91,16 @@ export default {
   },
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('请输入正确的登录名称'))
+      if (!value) {
+        callback(new Error('请输入登录名称'))
       } else {
         callback()
       }
+      // if (!validUsername(value)) {
+      //   callback(new Error('请输入正确的登录名称'))
+      // } else {
+      //   callback()
+      // }
     }
     const validatePassword = (rule, value, callback) => {
       if (value.length < 3) {

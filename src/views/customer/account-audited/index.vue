@@ -42,7 +42,7 @@
               <!--   <span v-if="item.rowName ==='BiTime'">{{ row[item.rowName].split('.')[0] }}</span>
 
               <span v-else>{{ row[item.rowName] }}</span>-->
-              <span v-if="item.rowName ==='applicationTime' || item.rowName ==='approvalTime'">{{ row[item.rowName]?dayjs(row[item.rowName]).format('YYYY-MM-DD HH:mm:ss'):'-' }}</span>
+              <span v-if="item.rowName ==='createTime' || item.rowName ==='approvalTime'">{{ row[item.rowName]?dayjs(row[item.rowName]).format('YYYY-MM-DD HH:mm:ss'):'-' }}</span>
               <span v-else-if="item.rowName==='status'">{{ $dict(row[item.rowName],'StatusList') }}</span>
               <span v-else>{{ row[item.rowName] }}</span>
             </template>
@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { accreviewinglist } from '@/api/customer'
+import { accreviewedlist } from '@/api/customer'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 export default {
   name: 'CustList', // 账户已审核
@@ -116,7 +116,7 @@ export default {
         { label: '用户昵称', rowName: 'nickName' },
         { label: '账户类型', rowName: 'type' },
         { label: '账户地址', rowName: 'address' },
-        { label: '申请时间', rowName: 'applicationTime' },
+        { label: '申请时间', rowName: 'createTime' },
         { label: '审核时间', rowName: 'approvalTime' },
         { label: '状态', rowName: 'status' }
       ],
@@ -133,7 +133,7 @@ export default {
 
     getList() {
       this.listLoading = true
-      accreviewinglist(this.form).then(response => {
+      accreviewedlist(this.form).then(response => {
         this.list = response.data.result
         this.total = response.data.totalCount
         this.listLoading = false

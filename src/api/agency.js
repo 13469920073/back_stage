@@ -18,9 +18,8 @@ export function updateums(data) {
 // 获取列表---删除
 export function deleteums(data) {
   return request({
-    url: '/admin/auth/deleteums',
-    method: 'delete',
-    data
+    url: '/admin/auth/deleteums?id=' + data.id,
+    method: 'delete'
   })
 }
 

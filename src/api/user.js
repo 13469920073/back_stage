@@ -31,3 +31,26 @@ export function getAdmininfo() {
   })
 }
 
+// k线图表涨跌
+export function getratebody() {
+  return request({
+    url: '/financial/get/ratebody',
+    method: 'get'
+  })
+}
+// k线启用
+export function ratechange() {
+  return request({
+    url: '/financial/open/ratechange',
+    method: 'get'
+  })
+}
+
+// k线停止涨跌
+export function redisache(data) {
+  return request({
+    url: '/financial/close/redisache?key=' + 'RateChange',
+    method: 'get'
+  })
+}
+

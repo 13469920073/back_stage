@@ -44,7 +44,7 @@
               <span v-if="item.rowName==='BiChannel'">{{ row[item.rowName] | dict('BiChannelList') }}</span>
               <span v-else-if="item.rowName==='status'">{{ $dict(row[item.rowName],'StatusList') }}</span>
 
-              <span v-else-if="item.rowName ==='applicationTime'">{{ row[item.rowName]?dayjs(row[item.rowName]).format('YYYY-MM-DD HH:mm:ss'):'-' }}</span>
+              <span v-else-if="item.rowName ==='createTime'">{{ row[item.rowName]?dayjs(row[item.rowName]).format('YYYY-MM-DD HH:mm:ss'):'-' }}</span>
               <span v-else> {{ row[item.rowName] }}</span>
             </template>
           </el-table-column>
@@ -123,7 +123,7 @@ export default {
         { label: '账户类型', rowName: 'type' },
         { label: '账户名称', rowName: 'accountName' },
         { label: '账户地址', rowName: 'address' },
-        { label: '申请时间', rowName: 'applicationTime' },
+        { label: '申请时间', rowName: 'createTime' },
         { label: '状态', rowName: 'status' }
       ],
       option: {
