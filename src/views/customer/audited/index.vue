@@ -152,7 +152,7 @@ export default {
       })
     },
     // 图片预览
-    onView(row) {
+    onView(row, name) {
       this.dialogVisible = true
       if (name === 'photoFront') {
         this.previewpic = row.photoFront

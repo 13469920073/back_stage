@@ -53,4 +53,11 @@ export function redisache(data) {
     method: 'get'
   })
 }
-
+// k线停止涨跌原价===
+export function setRatechange(data) {
+  return request({
+    url: '/financial/open/ratechange',
+    method: 'get',
+    params: data
+  })
+}

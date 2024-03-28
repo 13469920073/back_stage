@@ -65,7 +65,7 @@
 
     </div>
     <el-dialog :visible.sync="dialogVisible2" title="充值">
-      <el-form :model="agency" label-width="80px" :rules="rules" label-position="left">
+      <el-form ref="form" :model="agency" label-width="80px" :rules="rules" label-position="left">
         <el-form-item label="充值币种" prop="type">
           <el-select ref="select" v-model="agency.type" placeholder="请选择">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
@@ -114,8 +114,8 @@ export default {
       previewpic: '',
       arr: [],
       options: [{
-        label: 'BTH',
-        value: 'BTH'
+        label: 'BTC',
+        value: 'BTC'
       }, {
         label: 'ETH',
         value: 'ETH'
@@ -169,12 +169,12 @@ export default {
       showMainPage: true,
       temp: {},
       rules: {
-        type: [{ required: true, message: '充值币种不能为空', trigger: 'change' }],
-        incomeNum: [{ required: true, message: '充值数量不能为空', trigger: 'change' }],
+        type: [{ required: true, message: '充值币种不能为空', trigger: 'blur' }],
+        incomeNum: [{ required: true, message: '充值数量不能为空', trigger: 'blur' }],
         nickName: [{ required: true, message: '用户编号不能为空', trigger: 'blur' }]
       },
       searchFormRules: {
-        OrgName: [{ required: true, message: '请选择机构', trigger: 'change' }]
+        OrgName: [{ required: true, message: '请选择机构', trigger: 'blur' }]
 
       },
       processVisible: false,
@@ -230,7 +230,7 @@ export default {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           insertincomebyadmin(this.agency).then(() => {
-            this.dialogVisible2 = false
+            this.confirmRole()
             this.getList()
             this.$notify({
               title: '提示',

@@ -12,6 +12,12 @@
     <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
       <template slot="title">
         <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" />
+        <div v-if="item.meta.title == '客户管理' && (customerCount||accCount)" class="tip_sadmin">
+          <span>{{ customerCount+accCount }}</span>
+        </div>
+        <div v-if="item.meta.title == '财务管理' && (outlayCount|| incomeCount)" class="tip_sadmin">
+          <span>{{ outlayCount+incomeCount }}</span>
+        </div>
       </template>
       <sidebar-item
         v-for="child in item.children"
@@ -34,6 +40,7 @@ import { isExternal } from '@/utils/validate'
 import Item from './Item'
 import AppLink from './Link'
 import FixiOSBug from './FixiOSBug'
+import { getAdmininfo } from '@/api/user'
 
 export default {
   name: 'SidebarItem',
@@ -58,7 +65,21 @@ export default {
     // To fix https://github.com/PanJiaChen/vue-admin-template/issues/237
     // TODO: refactor with render function
     this.onlyOneChild = null
-    return {}
+    return {
+      outlayCount: '',
+      customerCount: '',
+      accCount: '',
+      incomeCount: ''
+    }
+  },
+  created() {
+    getAdmininfo().then((res) => {
+      const { incomeCount, outlayCount, customerCount, accCount } = res.data
+      this.incomeCount = incomeCount // 拒绝入金总条数
+      this.outlayCount = outlayCount // 拒绝出金总条数
+      this.customerCount = customerCount // 客户待审核总条数
+      this.accCount = accCount // 账户待审核总条数
+    })
   },
   methods: {
     hasOneShowingChild(children = [], parent) {
@@ -97,3 +118,22 @@ export default {
   }
 }
 </script>
+<style>
+.tip_sadmin {
+  position: absolute;
+    padding: 0;
+    height: 22px;
+    width: 22px;
+    line-height: 22px;
+    text-align: center;
+    border-radius: 50%;
+    color: white;
+    background-color: red;
+  right: 36px;
+  z-index: 99;
+  bottom: 18px;
+  margin: auto;
+    font-size: 12px;
+    transform: scale(.72);
+}
+</style>
