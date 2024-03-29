@@ -55,11 +55,11 @@
           <el-input
             v-model="setForm.middleParam"
             type="number"
-            min="0.001"
+            min="0.0001"
             max="0.1"
-            step="0.001"
+            step="0.0001"
             maxlength="6"
-            placeholder="0.001-0.1之间的数值"
+            placeholder="0.0001-0.1之间的数值"
             @input="validateInput"
           />
         </el-form-item>
@@ -199,9 +199,9 @@ export default {
       //   }
       // }
       // var regex = /^(\d+)?(\.\d{0,2})?$/
-      if (event < 0.001) {
+      if (event < 0.0001) {
         console.log('vvvv3333', event)
-        if (event === '0' || event === '0.0' || event === '0.00') {
+        if (event === '0' || event === '0.0' || event === '0.00' || event === '0.000') {
           this.setForm.middleParam = event
         } else {
           this.setForm.middleParam = ''

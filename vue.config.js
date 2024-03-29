@@ -39,7 +39,7 @@ module.exports = {
     // before: require('./mock/mock-server.js')
     proxy: {
       [process.env.VUE_APP_BASE_API]: {
-        target: 'http://139.9.65.136:8099/'
+        target: 'http://banksagitarii.com/prod-api/'
       }
     }
   },
