@@ -6,13 +6,7 @@
   <div>
     <div v-if="showMainPage" class="app-container">
       <div class="form-container">
-        <el-form
-          ref="form"
-          label-width="100px"
-          :inline="true"
-          :model="form"
-          :rules="searchFormRules"
-        >
+        <el-form ref="form" label-width="100px" :inline="true" :model="form" :rules="searchFormRules">
           <el-form-item label="关键词">
             <el-input ref="BiId" v-model="form.keyWords" placeholder="关键词" />
           </el-form-item>
@@ -36,19 +30,48 @@
           style="width: 100%;"
           @cell-click="chooseItem"
         >
-          <el-table-column v-for="(item,index) in tableList" :key="index" :label="item.label" min-width="110px" align="center">
+          <el-table-column
+            v-for="(item, index) in tableList"
+            :key="index"
+            :label="item.label"
+            min-width="110px"
+            align="center"
+          >
             <template slot-scope="{row}">
-              <span v-if="item.rowName ==='status'">{{ $dict(row[item.rowName],'StatusList') }}</span>
-              <span v-if="item.rowName ==='registeredTime'">{{ row[item.rowName]?dayjs(row[item.rowName]).format('YYYY-MM-DD HH:mm:ss'):'-' }}</span>
+              <span v-if="item.rowName === 'status'">{{ $dict(row[item.rowName], 'StatusList') }}</span>
+              <span v-if="item.rowName === 'registeredTime'">{{
+                row[item.rowName] ? dayjs(row[item.rowName]).format('YYYY-MM-DD HH:mm:ss') : '-' }}</span>
               <!--  <span v-else-if="item.rowName==='BiChannel'">{{ row[item.rowName] | dict('BiChannelList') }}</span>
               <span v-else>{{ row[item.rowName] }}</span>-->
               <span v-else>{{ row[item.rowName] }}</span>
             </template>
           </el-table-column>
+          <el-table-column label="操作" fixed="right" width="120">
+            <template slot-scope="scope">
+              <el-button
+                v-if="scope.row.lockStatus === '1'"
+                size="small"
+                type="primary"
+                @click="onLock(scope.row, scope.$index)"
+              >锁定</el-button>
+              <el-button
+                v-else-if="scope.row.lockStatus === '2'"
+                size="small"
+                type="danger"
+                @click="onUnlock(scope.row, scope.$index)"
+              >解锁</el-button>
+            </template>
+          </el-table-column>
         </el-table>
       </div>
       <!-- 分页 -->
-      <pagination v-show="total>0" :total="total" :page.sync="form.pageNum" :limit.sync="form.limit" @pagination="getList" />
+      <pagination
+        v-show="total > 0"
+        :total="total"
+        :page.sync="form.pageNum"
+        :limit.sync="form.limit"
+        @pagination="getList"
+      />
 
     </div>
 
@@ -57,7 +80,7 @@
 </template>
 
 <script>
-import { customerlist } from '@/api/customer'
+import { customerlist, updateLockStatus } from '@/api/customer'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 export default {
   name: 'CustList',
@@ -171,6 +194,48 @@ export default {
     getprocessDialogValue(val) {
 
     },
+    // 锁定
+    onLock(row) {
+      this.$confirm('是否锁定该账户？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const param = {
+          id: row.id,
+          lockStatus: 2
+        }
+        updateLockStatus(param).then(response => {
+          this.getList()
+          this.$message({
+            type: 'success',
+            message: '锁定成功'
+          })
+        })
+      }).catch(() => {
+      })
+    },
+    // 解锁
+    onUnlock(row) {
+      console.log()
+      this.$confirm('是否解锁该账户？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const param = {
+          id: row.id,
+          lockStatus: 1
+        }(param).then(response => {
+          this.getList()
+          this.$message({
+            type: 'success',
+            message: '解锁成功'
+          })
+        })
+      }).catch(() => {
+      })
+    },
 
     // 详情关闭
     closeApproval() {
@@ -179,6 +244,4 @@ export default {
   }
 }
 </script>
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

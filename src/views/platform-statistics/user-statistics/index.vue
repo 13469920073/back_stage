@@ -101,26 +101,6 @@ export default {
       arr: [],
       UserJobList: [],
       list: [
-        {
-          nickName: 'NO.73401',
-          loginAccount: '61-432012117',
-          superior: '张',
-          PartyName: '48980.5210',
-          realName: '伊藤和成',
-          ProdCategory: '张',
-          BiStateName: '张',
-          photo: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
-        },
-        {
-          nickName: 'NO.73401',
-          loginAccount: '61-432012117',
-          superior: '张',
-          PartyName: '48980.5210',
-          realName: '伊藤和成',
-          ProdCategory: '张',
-          BiStateName: '张',
-          photo: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
-        }
       ], // 表格
       total: 0, // 分页
       form: {
@@ -148,13 +128,13 @@ export default {
         // table配置
         { label: '登录帐号', rowName: 'userName' },
         { label: '代理昵称', rowName: 'nickName' },
-        { label: '期初总余额', rowName: 'startNum' },
-        { label: '团队总充值', rowName: 'adminIncomeNum' },
-        { label: '团队总提现', rowName: 'adminOutlayNum' },
-        { label: '提现待审核', rowName: 'adminOutlayYetNum' },
-        { label: '提现退回', rowName: 'adminOutlayRejectNum' },
-        { label: '占用保证金', rowName: 'adminTakeDepositNum' },
-        { label: '期末总余额', rowName: 'adminFinalNum' },
+        { label: '初期总余额', rowName: 'custStartNum' },
+        { label: '团队总充值', rowName: 'custIncomeNum' },
+        { label: '团队总提现', rowName: 'custOutlayNum' },
+        { label: '提现待审核', rowName: 'custOutlayYetNum' },
+        { label: '提现退回', rowName: 'custOutlayRejectNum' },
+        { label: '占用保证金', rowName: 'custTakeDepositNum' },
+        { label: '期末总余额', rowName: 'custFinalNum' },
         { label: '团队总盈亏', rowName: 'adminTotalNum' }
       ],
       option: {

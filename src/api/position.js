@@ -17,3 +17,11 @@ export function custcheckoutlist(data) {
   })
 }
 
+// 强制平仓
+export function checkoutbymanual(data) {
+  return request({
+    url: '/positions/member/checkoutbymanual?id=' + data,
+    method: 'get'
+  })
+}
+

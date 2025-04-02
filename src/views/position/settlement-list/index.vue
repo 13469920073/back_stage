@@ -125,7 +125,7 @@ export default {
         { label: '建仓时间', rowName: 'createTime' },
         { label: '持仓类型', rowName: 'holdType' },
         { label: '币种', rowName: 'type' },
-        { label: '总持仓数量', rowName: 'holdNum' },
+        { label: '总持仓数量', rowName: 'allholdNum' },
         { label: '持仓价', rowName: 'holdPrice' },
         { label: '平仓价', rowName: 'overPrice' },
         { label: '杠杆倍数', rowName: 'times' },

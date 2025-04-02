@@ -146,6 +146,9 @@ export default {
       }, {
         label: 'USDT',
         value: 'USDT'
+      }, {
+        label: 'DOGE',
+        value: 'DOGE'
       }],
       agency: {
         incomeNum: '',

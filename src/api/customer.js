@@ -49,6 +49,14 @@ export function updatecustomeracc(data) {
     data
   })
 }
+// 获取账户待审核 -- 锁定
+export function updateLockStatus(data) {
+  return request({
+    url: '/customer/update/updateLockStatus',
+    method: 'PUT',
+    data
+  })
+}
 // 获取账户已审核列表
 export function accreviewinglist(data) {
   return request({
