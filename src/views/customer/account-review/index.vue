@@ -123,6 +123,14 @@ export default {
         { label: '账户类型', rowName: 'type' },
         { label: '账户名称', rowName: 'accountName' },
         { label: '账户地址', rowName: 'address' },
+
+        { label: '银行名称', rowName: 'bankName' },
+        { label: '银行支行名称', rowName: 'bankBranchName' },
+        { label: '账户号码', rowName: 'accountNumber' },
+        { label: '支行编号', rowName: 'branchNumber' },
+        { label: '开户人', rowName: 'accountHolder' },
+        { label: '备注', rowName: 'remarks' },
+
         { label: '申请时间', rowName: 'createTime' },
         { label: '状态', rowName: 'status' }
       ],
