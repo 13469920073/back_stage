@@ -217,7 +217,6 @@ export default {
     },
     // 解锁
     onUnlock(row) {
-      console.log()
       this.$confirm('是否解锁该账户？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -226,7 +225,8 @@ export default {
         const param = {
           id: row.id,
           lockStatus: 1
-        }(param).then(response => {
+        }
+        updateLockStatus(param).then(response => {
           this.getList()
           this.$message({
             type: 'success',
